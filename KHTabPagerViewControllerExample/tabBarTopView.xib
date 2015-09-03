@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB">
+            <rect key="frame" x="0.0" y="0.0" width="400" height="50"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="515-qA-aIz">
+                    <rect key="frame" x="0.0" y="3" width="400" height="47"/>
+                    <subviews>
+                        <button opaque="NO" tag="203" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9bz-vQ-607">
+                            <rect key="frame" x="354" y="7" width="32" height="32"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="32" id="06b-kw-tSV"/>
+                                <constraint firstAttribute="height" constant="32" id="7Y1-cg-AeO"/>
+                            </constraints>
+                            <state key="normal" image="ic_right">
+                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7si-Pa-59f">
+                            <rect key="frame" x="14" y="7" width="32" height="32"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="32" id="shf-qW-Xwk"/>
+                                <constraint firstAttribute="width" constant="32" id="zmG-xJ-Nhy"/>
+                            </constraints>
+                            <state key="normal" image="ic_left">
+                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                        </button>
+                        <label opaque="NO" userInteractionEnabled="NO" tag="202" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Extra Controls" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="16" translatesAutoresizingMaskIntoConstraints="NO" id="vjk-3U-1iw">
+                            <rect key="frame" x="115" y="10" width="171.5" height="28"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="28" id="ZVR-OI-Fbh"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
+                    <color key="backgroundColor" red="0.0078431372550000003" green="0.33725490200000002" blue="0.61176470589999998" alpha="1" colorSpace="calibratedRGB"/>
+                    <constraints>
+                        <constraint firstItem="7si-Pa-59f" firstAttribute="top" secondItem="515-qA-aIz" secondAttribute="top" constant="7" id="8b3-I3-DMQ"/>
+                        <constraint firstAttribute="height" constant="47" id="IH6-Mp-LqH"/>
+                        <constraint firstItem="9bz-vQ-607" firstAttribute="leading" secondItem="vjk-3U-1iw" secondAttribute="trailing" constant="67.5" id="Mlq-Gc-zmJ"/>
+                        <constraint firstItem="9bz-vQ-607" firstAttribute="top" secondItem="515-qA-aIz" secondAttribute="top" constant="7" id="QxV-7u-khd"/>
+                        <constraint firstItem="vjk-3U-1iw" firstAttribute="leading" secondItem="7si-Pa-59f" secondAttribute="trailing" constant="69" id="k1q-bl-4XS"/>
+                        <constraint firstAttribute="trailing" secondItem="9bz-vQ-607" secondAttribute="trailing" constant="14" id="m4E-LL-Wjt"/>
+                        <constraint firstItem="7si-Pa-59f" firstAttribute="leading" secondItem="515-qA-aIz" secondAttribute="leading" constant="14" id="tQj-m2-DwF"/>
+                        <constraint firstItem="vjk-3U-1iw" firstAttribute="top" secondItem="515-qA-aIz" secondAttribute="top" constant="10" id="u8Y-ci-Tbd"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstAttribute="bottom" secondItem="515-qA-aIz" secondAttribute="bottom" id="Ml1-yW-7y6"/>
+                <constraint firstItem="515-qA-aIz" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="XTv-zP-YXp"/>
+                <constraint firstAttribute="trailing" secondItem="515-qA-aIz" secondAttribute="trailing" id="oQU-b1-xs6"/>
+            </constraints>
+            <nil key="simulatedStatusBarMetrics"/>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <point key="canvasLocation" x="460" y="306"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="ic_left" width="32" height="32"/>
+        <image name="ic_right" width="32" height="32"/>
+    </resources>
+</document>
