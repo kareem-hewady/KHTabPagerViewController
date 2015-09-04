@@ -1,19 +1,24 @@
 # KHTabPagerViewController
 
-[![CocoaPods](https://img.shields.io/cocoapods/v/KHTabPagerViewController.svg)](http://cocoadocs.org/docsets/KHTabPagerViewController) [![CocoaPods](https://img.shields.io/cocoapods/l/KHTabPagerViewController.svg)]() [![CocoaPods](https://img.shields.io/cocoapods/p/KHTabPagerViewController.svg)]()
+<!--[![CocoaPods](https://img.shields.io/cocoapods/v/KHTabPagerViewController.svg)](http://cocoadocs.org/docsets/KHTabPagerViewController) [![CocoaPods](https://img.shields.io/cocoapods/l/KHTabPagerViewController.svg)]() [![CocoaPods](https://img.shields.io/cocoapods/p/KHTabPagerViewController.svg)]()
+-->
 
 <img src="gifs/demo.gif" alt="Animated gif">
 
 ## Introduction
-This is a slightly tweaked implementation for the tab pager view controller. It's based on guilhermearaujo/GUITabPagerViewController
+This is a slightly tweaked implementation for the tab pager view controller. It's heavily based on [guilhermearaujo/GUITabPagerViewController](https://github.com/guilhermearaujo/GUITabPagerViewController)
+
 **Added Features**
-1- Support for progressive scrolling
-2- Support for a custom view to be drawn above the tab bar. This is particularly handy if you need to present more controls based upon the child view controllers 
+
+1. Support for progressive scrolling.
+2. Support for a custom view to be drawn above the tab bar. This is particularly handy if you need to present more controls based upon the child view controllers. 
 
 ## Progressive Scrolling
 This is a side-by-side comparison between the progressive and non-progressive scrolling behavior.
-Progressive (on the left) tracks the touch movement to update the tab bar accordingly.
-Non-progressive (on the right) snaps to the next tab once the touch starts moving.
+
+**Progressive** (on the left) tracks the touch movement to update the tab bar accordingly.
+
+**Non-progressive** (on the right) snaps to the next tab once the touch starts moving.
 
 <img src="gifs/progressive.gif" alt="Animated gif">
 
@@ -37,7 +42,8 @@ To use it, you should create a view controller that extends `KHTabPagerViewContr
 
 - (void)viewWillAppear:(BOOL)animated {
   [super viewWillAppear:animated];
-  [self reloadData]; }
+  [self reloadData]; 
+  }
 ```
 
 Then, implement the `KHTabPagerDataSource` to populate the view.
