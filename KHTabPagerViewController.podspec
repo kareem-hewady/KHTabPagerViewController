@@ -3,7 +3,7 @@ Pod::Spec.new do |s|
   s.name          = "KHTabPagerViewController"
   s.version       = "0.1.0"
   s.summary       = "KHTabPagerViewController is a more advanced pager view controller based on GUITabPagerViewController."
-  s.homepage      = "https://github.com/kareem-hewady/KHTabPagerViewController."
+  s.homepage      = "https://github.com/kareem-hewady/KHTabPagerViewController"
   s.license       = { :type => "MIT", :file => "LICENSE" }
   s.author        = { "Kareem Hewady" => "kareem.hewady@gmail.com" }
   s.platform      = :ios, "7.0"
