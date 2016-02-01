@@ -109,8 +109,14 @@
             [[self delegate] tabPager:self willTransitionToTabAtIndex:index];
         }
         tapped = true;
+        UIPageViewControllerNavigationDirection direction;
+        if ([UIView userInterfaceLayoutDirectionForSemanticContentAttribute:self.view.semanticContentAttribute] == UIUserInterfaceLayoutDirectionRightToLeft) {
+            direction = (index > [self selectedIndex]) ? UIPageViewControllerNavigationDirectionReverse : UIPageViewControllerNavigationDirectionForward;
+        } else {
+            direction = (index > [self selectedIndex]) ? UIPageViewControllerNavigationDirectionForward : UIPageViewControllerNavigationDirectionReverse;
+        }
         [[self pageViewController]  setViewControllers:@[[self viewControllers][index]]
-                                             direction:(index > [self selectedIndex]) ? UIPageViewControllerNavigationDirectionForward : UIPageViewControllerNavigationDirectionReverse
+                                             direction:direction
                                               animated:YES
                                             completion:^(BOOL finished) {
                                                 [self setSelectedIndex:index];
@@ -268,6 +274,9 @@
         NSInteger fromIndex = self.selectedIndex;
         NSInteger toIndex = -1;
         progress = (offset.x - self.view.bounds.size.width) / self.view.bounds.size.width;
+        if ([UIView userInterfaceLayoutDirectionForSemanticContentAttribute:self.view.semanticContentAttribute] == UIUserInterfaceLayoutDirectionRightToLeft) {
+            progress = -1 * progress;
+        }
         if (progress > 0) {
             if (fromIndex < [[self viewControllers] count] - 1) {
                 toIndex = fromIndex + 1;

@@ -20,7 +20,7 @@
     [super viewDidLoad];
     
     self.view.backgroundColor = [UIColor lightGrayColor];
-    self.title = @"Tab Pager";
+    self.title = NSLocalizedString(@"Tab Pager",nil);
     self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
     UIBarButtonItem *button = [[UIBarButtonItem alloc] initWithTitle:@"Progressive" style:UIBarButtonItemStylePlain target:self action:@selector(switchProgressive)];
     self.navigationItem.rightBarButtonItem = button;
@@ -67,13 +67,13 @@
 - (NSString *)titleForTabAtIndex:(NSInteger)index {
     switch (index) {
         case 0:
-            return @"Tab #1";
+            return NSLocalizedString(@"Tab #1",nil);
         case 1:
-            return @"Very Long Tab #2";
+            return NSLocalizedString(@"Very Long Tab #2",nil);
         case 2:
-            return @"T #2";
+            return NSLocalizedString(@"T #3",nil);
         case 3:
-            return @"Tab #4";
+            return NSLocalizedString(@"Tab #4",nil);
         default:
             return nil;
     }

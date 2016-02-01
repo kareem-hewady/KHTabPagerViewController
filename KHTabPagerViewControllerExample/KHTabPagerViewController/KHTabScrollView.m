@@ -10,6 +10,8 @@
 
 #define MAP(a, b, c) MIN(MAX(a, b), c)
 
+const float kKHTabViewSpacing = 10.0f;
+
 @interface KHTabScrollView ()
 
 - (void)_initTabbarAtIndex:(NSInteger)index;
@@ -45,10 +47,10 @@
         
         [self setTabViews:tabViews];
         
-        CGFloat width = 10;
+        CGFloat width = kKHTabViewSpacing;
         
         for (UIView *view in tabViews) {
-            width += view.frame.size.width + 10;
+            width += view.frame.size.width + kKHTabViewSpacing;
         }
         
         [self setContentSize:CGSizeMake(MAX(width, self.frame.size.width), height)];
@@ -69,7 +71,7 @@
         for (UIView *tab in tabViews) {
             [contentView addSubview:tab];
             [tab setTranslatesAutoresizingMaskIntoConstraints:NO];
-            [VFL appendFormat:@"-%f-[T%d(%f)]", index ? 10.0f : 10.0 + widthDifference / 2, index, tab.frame.size.width];
+            [VFL appendFormat:@"-%f-[T%d(%f)]", index ? kKHTabViewSpacing : kKHTabViewSpacing + widthDifference / 2, index, tab.frame.size.width];
             [views setObject:tab forKey:[NSString stringWithFormat:@"T%d", index]];
             
             [contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-0-[T]-2-|"
@@ -83,7 +85,7 @@
             index++;
         }
         
-        [VFL appendString:[NSString stringWithFormat:@"-%f-|", 10.0f + widthDifference / 2]];
+        [VFL appendString:[NSString stringWithFormat:@"-%f-|", kKHTabViewSpacing + widthDifference / 2]];
         
         [contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:VFL
                                                                             options:0
@@ -115,7 +117,7 @@
                                                                           toItem:contentView
                                                                        attribute:NSLayoutAttributeLeading
                                                                       multiplier:1.0f
-                                                                        constant:widthDifference / 2 + 5]];
+                                                                        constant:widthDifference / 2 + (kKHTabViewSpacing / 2)]];
         
         [self setTabIndicatorWidth:[NSLayoutConstraint constraintWithItem:tabIndicator
                                                                 attribute:NSLayoutAttributeWidth
@@ -123,7 +125,7 @@
                                                                    toItem:nil
                                                                 attribute:0
                                                                multiplier:1.0f
-                                                                 constant:[tabViews[0] frame].size.width + 10]];
+                                                                 constant:[tabViews[0] frame].size.width + kKHTabViewSpacing]];
         
         [contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[S(5)]-0-|"
                                                                             options:0
@@ -133,6 +135,9 @@
         [contentView addConstraints:@[[self tabIndicatorDisplacement], [self tabIndicatorWidth]]];
     }
     [self layoutIfNeeded];
+    if ([UIView userInterfaceLayoutDirectionForSemanticContentAttribute:self.semanticContentAttribute] == UIUserInterfaceLayoutDirectionRightToLeft) {
+        [self setContentOffset:CGPointMake(self.contentSize.width - self.frame.size.width, 0)];
+    }
     return self;
 }
 
@@ -148,19 +153,30 @@
         animatedDuration = 0.0f;
     }
     
-    CGFloat x = [[self tabViews][0] frame].origin.x - 5;
-    
-    for (int i = 0; i < index; i++) {
-        x += [[self tabViews][i] frame].size.width + 10;
+    CGFloat x;
+    BOOL isRTL = NO;
+    if ([UIView userInterfaceLayoutDirectionForSemanticContentAttribute:self.semanticContentAttribute] == UIUserInterfaceLayoutDirectionRightToLeft) {
+        isRTL = YES;
+    }
+    if (isRTL) {
+        x = [[self tabViews][[self.tabViews count] - 1] frame].origin.x - (kKHTabViewSpacing / 2);
+    } else {
+        x = [[self tabViews][0] frame].origin.x - (kKHTabViewSpacing / 2);
     }
     
-    CGFloat w = [[self tabViews][index] frame].size.width + 10;
+    for (int i = 0; i < index; i++) {
+        x += [[self tabViews][i] frame].size.width + kKHTabViewSpacing;
+    }
+    CGFloat w = [[self tabViews][index] frame].size.width + kKHTabViewSpacing;
     [UIView animateWithDuration:animatedDuration
                      animations:^{
-                         CGFloat p = x - (self.frame.size.width - w) / 2;
+                         CGFloat p = x - ((self.frame.size.width - w) / 2);
+                         if (isRTL) {
+                             p -= [[self tabViews][index] frame].size.width - kKHTabViewSpacing;
+                             p = -1 * p;
+                         }
                          CGFloat min = 0;
                          CGFloat max = MAX(0, self.contentSize.width - self.frame.size.width);
-                         
                          [self setContentOffset:CGPointMake(MAP(p, min, max), 0)];
                          [[self tabIndicatorDisplacement] setConstant:x];
                          [[self tabIndicatorWidth] setConstant:w];
@@ -170,22 +186,30 @@
 
 - (void)animateFromTabAtIndex:(NSInteger)fromIndex toTabAtIndex:(NSInteger)toIndex withProgress:(float)progress {
     if (fromIndex != -1 && toIndex != -1) {
-        CGFloat x = [[self tabViews][0] frame].origin.x - 5;
-        CGFloat w = [[self tabViews][fromIndex] frame].size.width + 10;
-        for (int i = 0; i < fromIndex; i++) {
-            x += [[self tabViews][i] frame].size.width + 10;
+        CGFloat x;
+        BOOL isRTL = NO;
+        if ([UIView userInterfaceLayoutDirectionForSemanticContentAttribute:self.semanticContentAttribute] == UIUserInterfaceLayoutDirectionRightToLeft) {
+            isRTL = YES;
         }
-        CGFloat p = x - (self.frame.size.width - w) / 2;
-        x += fabs([[self tabViews][toIndex] frame].origin.x - [[self tabViews][fromIndex] frame].origin.x) * progress;
         
+        if (isRTL) {
+            x = [[self tabViews][[self.tabViews count] - 1] frame].origin.x - (kKHTabViewSpacing / 2);
+        } else {
+            x = [[self tabViews][0] frame].origin.x - (kKHTabViewSpacing / 2);
+        }
+        CGFloat w = [[self tabViews][fromIndex] frame].size.width + kKHTabViewSpacing;
+        for (int i = 0; i < fromIndex; i++) {
+            x += [[self tabViews][i] frame].size.width + kKHTabViewSpacing;
+        }
+        
+        if (isRTL) {
+            x += fabs([[self tabViews][toIndex] frame].origin.x - [[self tabViews][fromIndex] frame].origin.x + ([[self tabViews][toIndex] frame].size.width - [[self tabViews][fromIndex] frame].size.width)) * progress;
+        } else {
+            x += fabs([[self tabViews][toIndex] frame].origin.x - [[self tabViews][fromIndex] frame].origin.x) * progress;
+        }
         
         w += ([[self tabViews][toIndex] frame].size.width - [[self tabViews][fromIndex] frame].size.width) * fabs(progress);
-        
-        
-        CGFloat min = 0;
-        CGFloat max = MAX(0, self.contentSize.width - self.frame.size.width);
-        
-        [self setContentOffset:CGPointMake(MAP(p, min, max), 0)];
+
         [[self tabIndicatorDisplacement] setConstant:x];
         [[self tabIndicatorWidth] setConstant:w];
         [self layoutIfNeeded];
@@ -204,13 +228,13 @@
 #pragma mark - Private Methods
 
 - (void)_initTabbarAtIndex:(NSInteger)index {
-    CGFloat x = [[self tabViews][0] frame].origin.x - 5;
+    CGFloat x = [[self tabViews][0] frame].origin.x - (kKHTabViewSpacing / 2);
     
     for (int i = 0; i < index; i++) {
-        x += [[self tabViews][i] frame].size.width + 10;
+        x += [[self tabViews][i] frame].size.width + kKHTabViewSpacing;
     }
     
-    CGFloat w = [[self tabViews][index] frame].size.width + 10;
+    CGFloat w = [[self tabViews][index] frame].size.width + kKHTabViewSpacing;
     
     CGFloat p = x - (self.frame.size.width - w) / 2;
     CGFloat min = 0;

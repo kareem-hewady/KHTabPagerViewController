@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E304F1A61C5FD0B4007880DC /* tabBarTopView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E304F1A81C5FD0B4007880DC /* tabBarTopView.xib */; };
 		E338CDDB1B98E965003F8FB9 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E338CDDA1B98E965003F8FB9 /* main.m */; };
 		E338CDDE1B98E965003F8FB9 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E338CDDD1B98E965003F8FB9 /* AppDelegate.m */; };
 		E338CDE11B98E965003F8FB9 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E338CDE01B98E965003F8FB9 /* ViewController.m */; };
@@ -16,7 +17,7 @@
 		E338CDF51B98E965003F8FB9 /* KHTabPagerViewControllerExampleTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E338CDF41B98E965003F8FB9 /* KHTabPagerViewControllerExampleTests.m */; };
 		E338CE031B98EA29003F8FB9 /* KHTabPagerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E338CE021B98EA29003F8FB9 /* KHTabPagerViewController.m */; };
 		E338CE071B98EA41003F8FB9 /* KHTabScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = E338CE061B98EA41003F8FB9 /* KHTabScrollView.m */; };
-		E338CE0A1B98ED0C003F8FB9 /* tabBarTopView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E338CE091B98ED0C003F8FB9 /* tabBarTopView.xib */; };
+		E3D9728F1C5FBA73005310BF /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = E3D972911C5FBA73005310BF /* Localizable.strings */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -30,6 +31,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		E304F1A71C5FD0B4007880DC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/tabBarTopView.xib; sourceTree = "<group>"; };
+		E304F1AA1C5FD0BC007880DC /* ar */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ar; path = ar.lproj/tabBarTopView.strings; sourceTree = "<group>"; };
 		E338CDD51B98E965003F8FB9 /* KHTabPagerViewControllerExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = KHTabPagerViewControllerExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E338CDD91B98E965003F8FB9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E338CDDA1B98E965003F8FB9 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -47,7 +50,10 @@
 		E338CE051B98EA41003F8FB9 /* KHTabScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KHTabScrollView.h; path = KHTabPagerViewController/KHTabScrollView.h; sourceTree = "<group>"; };
 		E338CE061B98EA41003F8FB9 /* KHTabScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KHTabScrollView.m; path = KHTabPagerViewController/KHTabScrollView.m; sourceTree = "<group>"; };
 		E338CE081B98EAD5003F8FB9 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		E338CE091B98ED0C003F8FB9 /* tabBarTopView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = tabBarTopView.xib; sourceTree = "<group>"; };
+		E3D9728B1C5FBA2B005310BF /* ar */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ar; path = ar.lproj/Main.strings; sourceTree = "<group>"; };
+		E3D9728C1C5FBA2B005310BF /* ar */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ar; path = ar.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
+		E3D972901C5FBA73005310BF /* ar */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ar; path = ar.lproj/Localizable.strings; sourceTree = "<group>"; };
+		E3D972921C5FBA76005310BF /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/Localizable.strings; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -94,7 +100,7 @@
 				E338CDDD1B98E965003F8FB9 /* AppDelegate.m */,
 				E338CE081B98EAD5003F8FB9 /* ViewController.h */,
 				E338CDE01B98E965003F8FB9 /* ViewController.m */,
-				E338CE091B98ED0C003F8FB9 /* tabBarTopView.xib */,
+				E304F1A81C5FD0B4007880DC /* tabBarTopView.xib */,
 				E338CDE21B98E965003F8FB9 /* Main.storyboard */,
 				E338CDE51B98E965003F8FB9 /* Images.xcassets */,
 				E338CDE71B98E965003F8FB9 /* LaunchScreen.xib */,
@@ -106,6 +112,7 @@
 		E338CDD81B98E965003F8FB9 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				E3D972911C5FBA73005310BF /* Localizable.strings */,
 				E338CDD91B98E965003F8FB9 /* Info.plist */,
 				E338CDDA1B98E965003F8FB9 /* main.m */,
 			);
@@ -203,6 +210,7 @@
 			knownRegions = (
 				en,
 				Base,
+				ar,
 			);
 			mainGroup = E338CDCC1B98E965003F8FB9;
 			productRefGroup = E338CDD61B98E965003F8FB9 /* Products */;
@@ -220,10 +228,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E3D9728F1C5FBA73005310BF /* Localizable.strings in Resources */,
 				E338CDE41B98E965003F8FB9 /* Main.storyboard in Resources */,
 				E338CDE91B98E965003F8FB9 /* LaunchScreen.xib in Resources */,
 				E338CDE61B98E965003F8FB9 /* Images.xcassets in Resources */,
-				E338CE0A1B98ED0C003F8FB9 /* tabBarTopView.xib in Resources */,
+				E304F1A61C5FD0B4007880DC /* tabBarTopView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -268,10 +277,20 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
+		E304F1A81C5FD0B4007880DC /* tabBarTopView.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				E304F1A71C5FD0B4007880DC /* Base */,
+				E304F1AA1C5FD0BC007880DC /* ar */,
+			);
+			name = tabBarTopView.xib;
+			sourceTree = "<group>";
+		};
 		E338CDE21B98E965003F8FB9 /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
 				E338CDE31B98E965003F8FB9 /* Base */,
+				E3D9728B1C5FBA2B005310BF /* ar */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
@@ -280,8 +299,18 @@
 			isa = PBXVariantGroup;
 			children = (
 				E338CDE81B98E965003F8FB9 /* Base */,
+				E3D9728C1C5FBA2B005310BF /* ar */,
 			);
 			name = LaunchScreen.xib;
+			sourceTree = "<group>";
+		};
+		E3D972911C5FBA73005310BF /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				E3D972901C5FBA73005310BF /* ar */,
+				E3D972921C5FBA76005310BF /* Base */,
+			);
+			name = Localizable.strings;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -375,6 +404,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -386,6 +416,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
