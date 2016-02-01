@@ -12,6 +12,7 @@ This is a slightly tweaked implementation for the tab pager view controller. It'
 
 1. Support for progressive scrolling.
 2. Support for a custom view to be drawn above the tab bar. This is particularly handy if you need to present more controls based upon the child view controllers. 
+3. **Now with full RTL UI mirroring support. (for Arabic localization)**
 
 ## Progressive Scrolling
 This is a side-by-side comparison between the progressive and non-progressive scrolling behavior.
@@ -25,7 +26,7 @@ This is a side-by-side comparison between the progressive and non-progressive sc
 ## Installation
 **CocoaPods** (recommended)  
 Add the following line to your `Podfile`:  
-`pod 'KHTabPagerViewController', '~> 0.1.0'`  
+`pod 'KHTabPagerViewController', '~> 0.1.2'`  
 And then add `#import <KHTabPagerViewController.h>` to your view controller.
 
 **Manual**  
