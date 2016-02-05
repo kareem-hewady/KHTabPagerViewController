@@ -2,7 +2,7 @@ Pod::Spec.new do |s|
 
   s.name          = "KHTabPagerViewController"
   s.version       = "1.0.0"
-  s.summary       = "KHTabPagerViewController is a more advanced pager view controller with full RTL flipped UI support. It was originally based on GUITabPagerViewController."
+  s.summary       = "KHTabPagerViewController is a more advanced pager view controller with full RTL flipped UI support."
   s.homepage      = "https://github.com/kareem-hewady/KHTabPagerViewController"
   s.license       = { :type => "MIT", :file => "LICENSE" }
   s.author        = { "Kareem Hewady" => "kareem.hewady@gmail.com" }
