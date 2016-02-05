@@ -16,6 +16,7 @@
 }
 
 @property (strong, nonatomic) UIPageViewController *pageViewController;
+@property (strong, nonatomic) UIScrollView *pageScrollView;
 @property (strong, nonatomic) KHTabScrollView *header;
 @property (assign, nonatomic) NSInteger selectedIndex;
 
@@ -25,6 +26,7 @@
 @property (strong, nonatomic) UIColor *tabBackgroundColor;
 @property (assign, nonatomic) CGFloat headerHeight;
 @property (assign, nonatomic) BOOL isProgressive;
+@property (assign, nonatomic) BOOL isTransitionInProgress;
 @property (assign, nonatomic) CGFloat headerPadding;
 @property (strong, nonatomic) UIView *headerTopView;
 
@@ -42,9 +44,10 @@
     
     for (UIView *view in [[[self pageViewController] view] subviews]) {
         if ([view isKindOfClass:[UIScrollView class]]) {
-            [(UIScrollView *)view setCanCancelContentTouches:YES];
-            [(UIScrollView *)view setDelaysContentTouches:NO];
-            [(UIScrollView *)view setDelegate:self];
+            self.pageScrollView = (UIScrollView *)view;
+            [self.pageScrollView setCanCancelContentTouches:YES];
+            [self.pageScrollView setDelaysContentTouches:NO];
+            [self.pageScrollView setDelegate:self];
         }
     }
     
@@ -71,17 +74,22 @@
 
 - (UIViewController *)pageViewController:(UIPageViewController *)pageViewController viewControllerBeforeViewController:(UIViewController *)viewController {
     NSUInteger pageIndex = [[self viewControllers] indexOfObject:viewController];
-    return pageIndex > 0 ? [self viewControllers][pageIndex - 1]: nil;
+    if (([[[UIDevice currentDevice] systemVersion] compare:@"9.0" options:NSNumericSearch] == NSOrderedAscending) && [UIApplication sharedApplication].userInterfaceLayoutDirection == UIUserInterfaceLayoutDirectionRightToLeft) {
+        return pageIndex < [[self viewControllers] count] - 1 ? [self viewControllers][pageIndex + 1]: nil;
+    } else return pageIndex > 0 ? [self viewControllers][pageIndex - 1]: nil;
 }
 
 - (UIViewController *)pageViewController:(UIPageViewController *)pageViewController viewControllerAfterViewController:(UIViewController *)viewController {
     NSUInteger pageIndex = [[self viewControllers] indexOfObject:viewController];
-    return pageIndex < [[self viewControllers] count] - 1 ? [self viewControllers][pageIndex + 1]: nil;
+    if (([[[UIDevice currentDevice] systemVersion] compare:@"9.0" options:NSNumericSearch] == NSOrderedAscending) && [UIApplication sharedApplication].userInterfaceLayoutDirection == UIUserInterfaceLayoutDirectionRightToLeft) {
+        return pageIndex > 0 ? [self viewControllers][pageIndex - 1]: nil;
+    } else return pageIndex < [[self viewControllers] count] - 1 ? [self viewControllers][pageIndex + 1]: nil;
 }
 
 #pragma mark - Page View Delegate
 
 - (void)pageViewController:(UIPageViewController *)pageViewController willTransitionToViewControllers:(NSArray *)pendingViewControllers {
+    self.isTransitionInProgress = YES;
     if (!self.isProgressive) {
         NSInteger index = [[self viewControllers] indexOfObject:pendingViewControllers[0]];
         [[self header] animateToTabAtIndex:index];
@@ -95,36 +103,10 @@
 - (void)pageViewController:(UIPageViewController *)pageViewController didFinishAnimating:(BOOL)finished previousViewControllers:(NSArray *)previousViewControllers transitionCompleted:(BOOL)completed {
     [self setSelectedIndex:[[self viewControllers] indexOfObject:[[self pageViewController] viewControllers][0]]];
     [[self header] animateToTabAtIndex:[self selectedIndex]];
+    self.isTransitionInProgress = NO;
     
     if ([[self delegate] respondsToSelector:@selector(tabPager:didTransitionToTabAtIndex:)]) {
         [[self delegate] tabPager:self didTransitionToTabAtIndex:[self selectedIndex]];
-    }
-}
-
-#pragma mark - Tab Scroll View Delegate
-
-- (void)tabScrollView:(KHTabScrollView *)tabScrollView didSelectTabAtIndex:(NSInteger)index {
-    if (index != [self selectedIndex]) {
-        if ([[self delegate] respondsToSelector:@selector(tabPager:willTransitionToTabAtIndex:)]) {
-            [[self delegate] tabPager:self willTransitionToTabAtIndex:index];
-        }
-        tapped = true;
-        UIPageViewControllerNavigationDirection direction;
-        if ([UIView userInterfaceLayoutDirectionForSemanticContentAttribute:self.view.semanticContentAttribute] == UIUserInterfaceLayoutDirectionRightToLeft) {
-            direction = (index > [self selectedIndex]) ? UIPageViewControllerNavigationDirectionReverse : UIPageViewControllerNavigationDirectionForward;
-        } else {
-            direction = (index > [self selectedIndex]) ? UIPageViewControllerNavigationDirectionForward : UIPageViewControllerNavigationDirectionReverse;
-        }
-        [[self pageViewController]  setViewControllers:@[[self viewControllers][index]]
-                                             direction:direction
-                                              animated:YES
-                                            completion:^(BOOL finished) {
-                                                [self setSelectedIndex:index];
-                                                
-                                                if ([[self delegate] respondsToSelector:@selector(tabPager:didTransitionToTabAtIndex:)]) {
-                                                    [[self delegate] tabPager:self didTransitionToTabAtIndex:[self selectedIndex]];
-                                                }
-                                            }];
     }
 }
 
@@ -264,6 +246,39 @@
     [[self view] addSubview:[self headerTopView]];
 }
 
+#pragma mark - Tab Scroll View Delegate
+
+-(BOOL)shouldAllowTapOnScrollView:(KHTabScrollView *)tabScrollView {
+    return (!self.isTransitionInProgress && !self.pageScrollView.isTracking && !self.pageScrollView.isDragging && !self.pageScrollView.isDecelerating);
+}
+
+- (void)tabScrollView:(KHTabScrollView *)tabScrollView didSelectTabAtIndex:(NSInteger)index {
+    if (index != [self selectedIndex] && !self.isTransitionInProgress) {
+        self.pageScrollView.scrollEnabled = NO;
+        if ([[self delegate] respondsToSelector:@selector(tabPager:willTransitionToTabAtIndex:)]) {
+            [[self delegate] tabPager:self willTransitionToTabAtIndex:index];
+        }
+        tapped = true;
+        UIPageViewControllerNavigationDirection direction;
+        if ((([UIView respondsToSelector:@selector(userInterfaceLayoutDirectionForSemanticContentAttribute:)]) && ([UIView userInterfaceLayoutDirectionForSemanticContentAttribute:self.view.semanticContentAttribute] == UIUserInterfaceLayoutDirectionRightToLeft)) || ([UIApplication sharedApplication].userInterfaceLayoutDirection == UIUserInterfaceLayoutDirectionRightToLeft)) {
+            direction = (index > [self selectedIndex]) ? UIPageViewControllerNavigationDirectionReverse : UIPageViewControllerNavigationDirectionForward;
+        } else {
+            direction = (index > [self selectedIndex]) ? UIPageViewControllerNavigationDirectionForward : UIPageViewControllerNavigationDirectionReverse;
+        }
+        __weak typeof(self) weakSelf = self;
+        [[self pageViewController]  setViewControllers:@[[self viewControllers][index]]
+                                             direction:direction
+                                              animated:YES
+                                            completion:^(BOOL finished) {
+                                                [weakSelf setSelectedIndex:index];
+                                                if ([[weakSelf delegate] respondsToSelector:@selector(tabPager:didTransitionToTabAtIndex:)]) {
+                                                    [[weakSelf delegate] tabPager:self didTransitionToTabAtIndex:[self selectedIndex]];
+                                                }
+                                                weakSelf.pageScrollView.scrollEnabled = YES;
+                                            }];
+    }
+}
+
 #pragma mark - UIScrollViewDelegate
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
@@ -274,7 +289,7 @@
         NSInteger fromIndex = self.selectedIndex;
         NSInteger toIndex = -1;
         progress = (offset.x - self.view.bounds.size.width) / self.view.bounds.size.width;
-        if ([UIView userInterfaceLayoutDirectionForSemanticContentAttribute:self.view.semanticContentAttribute] == UIUserInterfaceLayoutDirectionRightToLeft) {
+        if ((([UIView respondsToSelector:@selector(userInterfaceLayoutDirectionForSemanticContentAttribute:)]) && ([UIView userInterfaceLayoutDirectionForSemanticContentAttribute:self.view.semanticContentAttribute] == UIUserInterfaceLayoutDirectionRightToLeft)) || ([UIApplication sharedApplication].userInterfaceLayoutDirection == UIUserInterfaceLayoutDirectionRightToLeft)) {
             progress = -1 * progress;
         }
         if (progress > 0) {
@@ -293,6 +308,24 @@
         else if (fabs(progress) >= 0.999999 || fabs(progress) <= 0.000001)
             tapped = false;
     }
+}
+
+-(void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
+    self.isTransitionInProgress = YES;
+}
+
+-(void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView {
+    self.isTransitionInProgress = NO;
+}
+
+-(void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
+    if (!decelerate) {
+        self.isTransitionInProgress = NO;
+    }
+}
+
+-(void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
+    self.isTransitionInProgress = NO;
 }
 
 #pragma mark - Public Methods

@@ -135,7 +135,7 @@ const float kKHTabViewSpacing = 10.0f;
         [contentView addConstraints:@[[self tabIndicatorDisplacement], [self tabIndicatorWidth]]];
     }
     [self layoutIfNeeded];
-    if ([UIView userInterfaceLayoutDirectionForSemanticContentAttribute:self.semanticContentAttribute] == UIUserInterfaceLayoutDirectionRightToLeft) {
+    if ((([UIView respondsToSelector:@selector(userInterfaceLayoutDirectionForSemanticContentAttribute:)]) && ([UIView userInterfaceLayoutDirectionForSemanticContentAttribute:self.semanticContentAttribute] == UIUserInterfaceLayoutDirectionRightToLeft)) || ([UIApplication sharedApplication].userInterfaceLayoutDirection == UIUserInterfaceLayoutDirectionRightToLeft)) {
         [self setContentOffset:CGPointMake(self.contentSize.width - self.frame.size.width, 0)];
     }
     return self;
@@ -155,7 +155,9 @@ const float kKHTabViewSpacing = 10.0f;
     
     CGFloat x;
     BOOL isRTL = NO;
-    if ([UIView userInterfaceLayoutDirectionForSemanticContentAttribute:self.semanticContentAttribute] == UIUserInterfaceLayoutDirectionRightToLeft) {
+    if ([UIView respondsToSelector:@selector(userInterfaceLayoutDirectionForSemanticContentAttribute:)] && [UIView userInterfaceLayoutDirectionForSemanticContentAttribute:self.semanticContentAttribute] == UIUserInterfaceLayoutDirectionRightToLeft) {
+        isRTL = YES;
+    } else if ([UIApplication sharedApplication].userInterfaceLayoutDirection == UIUserInterfaceLayoutDirectionRightToLeft) {
         isRTL = YES;
     }
     if (isRTL) {
@@ -188,7 +190,9 @@ const float kKHTabViewSpacing = 10.0f;
     if (fromIndex != -1 && toIndex != -1) {
         CGFloat x;
         BOOL isRTL = NO;
-        if ([UIView userInterfaceLayoutDirectionForSemanticContentAttribute:self.semanticContentAttribute] == UIUserInterfaceLayoutDirectionRightToLeft) {
+        if ([UIView respondsToSelector:@selector(userInterfaceLayoutDirectionForSemanticContentAttribute:)] && [UIView userInterfaceLayoutDirectionForSemanticContentAttribute:self.semanticContentAttribute] == UIUserInterfaceLayoutDirectionRightToLeft) {
+            isRTL = YES;
+        } else if ([UIApplication sharedApplication].userInterfaceLayoutDirection == UIUserInterfaceLayoutDirectionRightToLeft) {
             isRTL = YES;
         }
         
@@ -209,7 +213,7 @@ const float kKHTabViewSpacing = 10.0f;
         }
         
         w += ([[self tabViews][toIndex] frame].size.width - [[self tabViews][fromIndex] frame].size.width) * fabs(progress);
-
+        
         [[self tabIndicatorDisplacement] setConstant:x];
         [[self tabIndicatorWidth] setConstant:w];
         [self layoutIfNeeded];
@@ -218,10 +222,12 @@ const float kKHTabViewSpacing = 10.0f;
 }
 
 - (void)tabTapHandler:(UITapGestureRecognizer *)gestureRecognizer {
-    if ([[self tabScrollDelegate] respondsToSelector:@selector(tabScrollView:didSelectTabAtIndex:)]) {
-        NSInteger index = [[gestureRecognizer view] tag];
-        [self animateToTabAtIndex:index];
-        [[self tabScrollDelegate] tabScrollView:self didSelectTabAtIndex:index];
+    if ([[self tabScrollDelegate] respondsToSelector:@selector(tabScrollView:didSelectTabAtIndex:)] && [[self tabScrollDelegate] respondsToSelector:@selector(shouldAllowTapOnScrollView:)]) {
+        if ([[self tabScrollDelegate] shouldAllowTapOnScrollView:self]) {
+            NSInteger index = [[gestureRecognizer view] tag];
+            [self animateToTabAtIndex:index];
+            [[self tabScrollDelegate] tabScrollView:self didSelectTabAtIndex:index];
+        }
     }
 }
 

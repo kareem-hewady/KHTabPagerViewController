@@ -27,5 +27,6 @@
 @protocol KHTabScrollDelegate <NSObject>
 
 - (void)tabScrollView:(KHTabScrollView *)tabScrollView didSelectTabAtIndex:(NSInteger)index;
+- (BOOL)shouldAllowTapOnScrollView:(KHTabScrollView *)tabScrollView;
 
 @end
