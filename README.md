@@ -12,7 +12,7 @@ This is a slightly tweaked implementation for the tab pager view controller. It'
 
 1. Support for progressive scrolling.
 2. Support for a custom view to be drawn above the tab bar. This is particularly handy if you need to present more controls based upon the child view controllers. 
-3. **Now with full RTL UI mirroring support. (for Arabic localization)**
+3. **Now with full RTL UI mirroring support (for Arabic localization) for both iOS 9 new APIs and the older iOS 8 and earlier.**
 
 ## Progressive Scrolling
 This is a side-by-side comparison between the progressive and non-progressive scrolling behavior.
