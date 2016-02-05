@@ -26,7 +26,7 @@ This is a side-by-side comparison between the progressive and non-progressive sc
 ## Installation
 **CocoaPods** (recommended)  
 Add the following line to your `Podfile`:  
-`pod 'KHTabPagerViewController', '~> 0.1.2'`  
+`pod 'KHTabPagerViewController', '~> 1.0.0'`  
 And then add `#import <KHTabPagerViewController.h>` to your view controller.
 
 **Manual**  
