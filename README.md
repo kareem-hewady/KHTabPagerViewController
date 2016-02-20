@@ -1,6 +1,7 @@
 # KHTabPagerViewController
 
 [![CocoaPods](https://img.shields.io/cocoapods/v/KHTabPagerViewController.svg)](http://cocoadocs.org/docsets/KHTabPagerViewController) [![CocoaPods](https://img.shields.io/cocoapods/l/KHTabPagerViewController.svg)]() [![CocoaPods](https://img.shields.io/cocoapods/p/KHTabPagerViewController.svg)]()
+[![Travis-CI](https://api.travis-ci.org/kareem-hewady/KHTabPagerViewController.svg)]()
 
 
 <img src="gifs/demo.gif" alt="Animated gif">
